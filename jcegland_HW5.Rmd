@@ -10,10 +10,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Assignment 
-Group members: Jillian Egland 
-repo link: 
+Group members: Jillian Egland  
+repo link: https://github.com/jcegland/DS202-Spring2023  
 
-Workflow paragraph: 
+Workflow paragraph:  
+The workflow of this project was fairly smooth. Once I started working on it and looking at the data it was easy to figure out how the data fit together and how to create graphs to make sense of the data. The questions in the slides were helpful in guiding the exploration process of the data and allowed me to systematically visualize the data. 
 
 
 
@@ -29,10 +30,7 @@ str(choco)
 
 
 
-
 ```
-
-
 
 
 
@@ -40,14 +38,18 @@ str(choco)
 
 # Question Set 1
 
-1. What is the overall number of chocolate bars rated?
-2. How does the number of ratings depend on the year? Draw a bar chart of the number of reports. 
+1. What is the overall number of chocolate bars rated? 
+   * 1852  
+2. How does the number of ratings depend on the year? Draw a bar chart of the number of reports.  
+   * number of bars reviewed increased in the years up till 2015 then decreased the next two years 
 
 ```{r} 
+# total bars rated 
+nrow(choco)
+choco$Review.Date=as.factor(choco$Review.Date)
 
 
-
-
+ggplot(choco, aes(x=Review.Date)) + geom_bar() + coord_flip() 
 
 
 ```
@@ -57,16 +59,26 @@ str(choco)
 
 # Question Set 2 
 
-(provide at least one graphic as basis for the answers )
-1. How are ratings distributed? Draw a histogram of ratings and describe it. Don’t forget to mention outliers, if there are any.
-2. Do ratings depend on the cocoa percentage of a chocolate bar?
-3. How do ratings compare across different company locations? Focus on the three locations with the most ratings: 
+(provide at least one graphic as basis for the answers )  
+1. How are ratings distributed? Draw a histogram of ratings and describe it. Don’t forget to mention outliers, if there are any.  
+   * unimodal, slightly skewed left, a few outliers on either end  
+2. Do ratings depend on the cocoa percentage of a chocolate bar?  
+   * There doesn't appear to be any relationship between percentages and ratings  
+3. How do ratings compare across different company locations? Focus on the three locations with the most ratings:  
+   * average rating and max rating are the same for all three companies. USA and France have the same minimum. USA and Canada have the same IQR, but the middle 50% of the data for Canada is higher than the other 2 countries.  
 
 ```{r} 
+# 1 
+ggplot(choco, aes(x=Rating)) + geom_histogram(binwidth=.25)
+
+# 2 
+ggplot(choco, aes(x=Cocoa.Pct, y=Rating)) + geom_point() + geom_jitter()
+
+
 top3 <- dplyr::filter(choco, Company.Location %in% c("U.S.A.", "France", "Canada"))
 
-
-
+# 3 
+ggplot(top3, aes(x=Company.Location, y=Rating)) + geom_boxplot() + coord_flip()
 
 
 
@@ -76,12 +88,14 @@ top3 <- dplyr::filter(choco, Company.Location %in% c("U.S.A.", "France", "Canada
 
 # My Question 
 
-1. Question 
-2. Graphs 
-3. Conclusion 
+1. Question  
+   * do certain companies work more with certain percentages?  
+2. Graphs  
+3. Conclusion  
+   * Canada and USA have the same median percentage. USA seems to work with the widest range because of the large amount of outliers on either end of the boxplot. France works with the widest IQR of percentages. 
 
 ```{r}
-
+ggplot(top3, aes(x=Company.Location, y=Cocoa.Pct)) + geom_boxplot() + coord_flip()
 
 
 
