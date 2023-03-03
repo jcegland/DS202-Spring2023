@@ -1,0 +1,97 @@
+---
+title: "HW 5"
+author: "Jillian"
+date: "2023-03-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Assignment 
+Group members: Jillian Egland 
+repo link: 
+
+Workflow paragraph: 
+
+
+
+
+
+# importing data 
+
+```{r}
+library(ggplot2) 
+choco <- read.csv("https://ds202-at-isu.github.io/labs/data/choco.csv")
+head(choco) 
+str(choco)
+
+
+
+
+```
+
+
+
+
+
+
+
+# Question Set 1
+
+1. What is the overall number of chocolate bars rated?
+2. How does the number of ratings depend on the year? Draw a bar chart of the number of reports. 
+
+```{r} 
+
+
+
+
+
+
+```
+
+
+
+
+# Question Set 2 
+
+(provide at least one graphic as basis for the answers )
+1. How are ratings distributed? Draw a histogram of ratings and describe it. Don’t forget to mention outliers, if there are any.
+2. Do ratings depend on the cocoa percentage of a chocolate bar?
+3. How do ratings compare across different company locations? Focus on the three locations with the most ratings: 
+
+```{r} 
+top3 <- dplyr::filter(choco, Company.Location %in% c("U.S.A.", "France", "Canada"))
+
+
+
+
+
+
+```
+
+
+
+# My Question 
+
+1. Question 
+2. Graphs 
+3. Conclusion 
+
+```{r}
+
+
+
+
+``` 
+
+
+
+
+
+
+
+
+
