@@ -14,7 +14,7 @@ Group members: Jillian Egland
 repo link: https://github.com/jcegland/DS202-Spring2023  
 
 Workflow paragraph:  
-The workflow of this project was fairly smooth. Once I started working on it and looking at the data it was easy to figure out how the data fit together and how to create graphs to make sense of the data. The questions in the slides were helpful in guiding the exploration process of the data and allowed me to systematically visualize the data. 
+The workflow of this project was fairly smooth. Once I started working on it and looking at the data it was easy to figure out how the data fit together and how to create graphs to make sense of the data. The questions in the slides were helpful in guiding the exploration process of the data and allowed me to systematically visualize the data.  
 
 
 
@@ -91,6 +91,7 @@ ggplot(top3, aes(x=Company.Location, y=Rating)) + geom_boxplot() + coord_flip()
 1. Question  
    * do certain companies work more with certain percentages?  
 2. Graphs  
+   * see below 
 3. Conclusion  
    * Canada and USA have the same median percentage. USA seems to work with the widest range because of the large amount of outliers on either end of the boxplot. France works with the widest IQR of percentages. 
 

@@ -1,0 +1,114 @@
+---
+title: "HW4"
+author: "Jillian Egland"
+date: "2023-02-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(ggplot2)
+library(classdata)
+A=mpg
+A
+str(A)
+
+
+```
+
+
+# Question 1
+List five functions that you could use to get more information about the mpg dataset.  
+1. str()  
+2. dim()  
+3. summary()  
+4. head()  
+5. colnames()  
+
+
+
+
+# Question 2
+Using the ggplot2 package create a scatterplot of hwy and cty and describe the relationship. Why are there so few points visible? Use a geom that helps reduce the amount of overplotting in the scatterplot. (Try ?geom_jitter)
+
+There are so few points visible because lots of them overlap. 
+The relationship between hwy and cty is a strong positive linear relationship. 
+
+```{r}
+ggplot(data=A, aes(x=hwy, y=cty)) + geom_point() + geom_jitter()
+
+
+
+```
+
+
+
+
+
+# Question 3 
+Apart from the US, most countries use fuel consumption (fuel consumed over fixed distance) rather than fuel economy (distance traveled with fixed amount of fuel). How could you convert cty and hwy into the European standard of liter/100 km? Introduce corresponding variables into the mpg data.
+
+Formula: 235.215/(X US mpg) = Y L/100km
+
+
+```{r}
+A$cty_Euro = 235.215/A$cty
+A$hwy_Euro = 235.215/A$hwy
+
+str(A) 
+
+
+```
+
+
+
+
+# Question 4 
+Are cars in 2008 more fuel efficient than cars in 1999? Expand on your answer in (3) for a visual approach to this question. Note: you are not asked to find numeric answers. Instead, interpret plots.
+
+The range of dots in 2008 are lower than the range in 1999, suggesting worse fuel efficiency in 2008. Cars are going less miles for each gallon. 
+
+```{r}
+A_1999 = dplyr::filter(A, year==1999)
+A_2008 = dplyr::filter(A, year==2008)
+
+ggplot(data=A, aes(x=hwy, y=cty)) + geom_point() + facet_wrap(~year) + geom_jitter()
+#ggplot(data=A_1999, aes(x=hwy, y=cty)) + geom_point() + geom_jitter()
+#ggplot(data=A_2008, aes(x=hwy, y=cty)) + geom_point() + geom_jitter()
+
+
+
+```
+
+
+
+
+
+
+
+# Question 5 
+Use the ggplot2 package to create side-by-side boxplots of cty by class. Describe the relationship in 2-3 sentences. Change the label for the y-axis to ‘city miles per gallon’ (see ?ylab).
+
+the subcompact, midsize, and compact all have higher average city mpg than the rest of the classes. Subcompact has the highest maximum and SUV and pickup have the smallest minimum mgp. The 2 seater has the smallest range of mpgs per class while the subcompact has the highest range. 
+
+
+```{r}
+library(ggplot2)
+ggplot(data=A, aes(x=class, y=cty)) + geom_boxplot() + labs(y="city miles per gallon") 
+
+
+```
+
+
+
+
+
+
+
+
+
+

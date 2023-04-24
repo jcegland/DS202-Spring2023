@@ -1,0 +1,132 @@
+---
+title: "HW 6"
+author: "Jillian Egland"
+date: "2023-03-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Uploading data 
+
+```{r}
+data(tips, package="reshape2")  
+```
+
+# Question 2 
+2. How many parties did the waiter serve? What type are the variables that he collected? Show your code.
+   * 244 parties 
+   * double (decimals), factor, integer 
+```{r} 
+nrow(tips)
+head(tips)
+
+
+```
+
+# Question 3 
+3. Create a new variable size.factor which translates the variable size to a factor. Should size be a factor or a numerical variable? Give your reasoning.
+
+   * size should be a factor because you can't get a size that is a decimal; it isn't a continuous integer. There are levels of sizes. 
+```{r} 
+tips$size.factor = as.factor(tips$size)
+head(tips)
+
+
+```
+
+# Question 4
+4. How does the tipping amount (tip) depend on the overall bill (total_bill)? Use the ggplot2 package to show a chart, describe the relationship in words. Describe at least two types of anomalies in the plot. What do they mean?
+
+   * moderate, positive, linear relationship between overal bill and tipping amount 
+   * there is a point at (8ish, 5.1ish) that is above the general shape, this means that the person tipped a higher rate than other people who paid a similar amount for their meal 
+   * there are points high in the top right corner of the graph, these points mean that these people paid more and tipped more, mostly following the shape 
+```{r} 
+library(ggplot2) 
+ggplot(tips, aes(x=total_bill, y=tip)) + geom_point()
+
+
+
+
+```
+
+# Question 5
+5. Introduce a variable tiprate into the data set, that incorporates the rate of tips. What information is available for the best tipper, what for the worst? What is the average rate for tips?
+
+   * best tipper: 28.06% 
+   * worse tipper: 1.41% 
+   * average tipper: 7.05% 
+   * for best/worse tipper, you can see information for each column for the tipper in question 
+```{r} 
+tips$tiprate = tips$total_bill/tips$tip
+head(tips)
+
+ggplot(tips, aes(x=tiprate)) + geom_histogram(binwidth=1) 
+
+# max tips 
+max(tips$tiprate)
+max_tipper = dplyr::filter(tips, tiprate==max(tips$tiprate))
+max_tipper
+
+# min tips 
+min(tips$tiprate)
+min_tipper = dplyr::filter(tips, tiprate==min(tips$tiprate))
+min_tipper
+
+# average tips 
+mean(tips$tiprate)
+
+
+```
+
+# Question 6
+6. How does smoking behavior and gender of the person who pays impact the relationship between tip and total bill? Find a visualization that incorporates all four variables. Interpret the result.
+
+   * the females' IQR is smaller than the males' range 
+   * the non smokers have a more concentrated cloud, while the smokers' range is more spread out 
+   * both of the high tipper outliers are male smokers 
+```{r} 
+library(ggmosaic)
+#ggplot(data = tips)  + geom_mosaic(aes(x = product(sex, smoker)) )
+ggplot(tips, aes(x=tiprate, y=smoker, color=factor(tips$sex))) + geom_point() + geom_jitter()
+ggplot(tips, aes(x=tiprate, y=sex, color=factor(tips$smoker))) + geom_point() + geom_jitter()
+
+
+
+
+```
+
+# Question 7
+7. Use ggplot2 to find a graphical summary of the relationship between day of the week and gender of the person paying the bill. What can you say about this relationship?
+
+   * as the weekend continues, the percentage of males paying for dinner increases 
+```{r} 
+tips$day = factor(tips$day, levels=c("Thur", "Fri", "Sat", "Sun"))
+ggplot(tips, aes(x = day, fill=factor(sex))) + geom_bar(position="fill")
+
+
+
+```
+
+# Question 8
+8. Use ggplot2 to make a boxplot of the tiprate on different days. Rank the levels of day by the average of the tiprate. What can you say about this relationship?
+
+   * Sunday has the lowest average tiprate, and Saturday has the highest 
+   * Saturday and Sunday also have the IQR of tip rates
+   * Friday has the lowest range and no outliers , so the tip rates are very similar to each other 
+```{r} 
+tips$day = factor(tips$day, levels=c("Sun", "Fri", "Thur", "Sat"))
+ggplot(tips, aes(x=day, y=tiprate)) + geom_boxplot() + coord_flip()
+
+
+
+```
+
+
+
+
+
+

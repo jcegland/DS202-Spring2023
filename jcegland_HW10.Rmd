@@ -1,0 +1,42 @@
+---
+title: "HW 10"
+author: "Jillian Egland"
+date: "2023-04-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## check 04_maps.Rmd? 
+
+## Homework 10 
+team: Jillian Egland 
+https://github.com/jcegland/DS202-Spring2023 
+
+
+
+## Read in data 
+```{r, warning=FALSE} 
+library(tidyverse)
+accident = read.csv("https://raw.githubusercontent.com/yumouqiu/DS202-Spring2023/main/Practice/data/fars2016/accident.csv")
+person = read.csv("https://raw.githubusercontent.com/yumouqiu/DS202-Spring2023/main/Practice/data/fars2016/person.csv")
+vehicle = read.csv("https://raw.githubusercontent.com/yumouqiu/DS202-Spring2023/main/Practice/data/fars2016/vehicle.csv")
+
+head(accident)
+head(person)
+head(vehicle)
+
+```
+
+
+
+
+
+
+
+
+
+
+
