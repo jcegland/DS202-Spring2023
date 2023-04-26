@@ -9,7 +9,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## check 04_maps.Rmd? 
 
 ## Homework 10 
 team: Jillian Egland 
@@ -29,6 +28,98 @@ head(person)
 head(vehicle)
 
 ```
+
+
+# plotting lat and long on map 
+
+```{r} 
+
+ggplot(accident, aes(x=LONGITUD, y=LATITUDE)) + geom_point() 
+
+accident_filter = dplyr::filter(accident, LONGITUD<500)
+ggplot(accident_filter, aes(x=LONGITUD, y=LATITUDE)) + geom_point() 
+
+
+
+
+``` 
+
+
+# Days of the week 
+are there some days of the week where more accidents happen than on others (use variable DAY_WEEK)? 
+  Assuming 1 is Sunday, it looks like accidents are increased on the weekends, and lower towards the middle of the week. 
+
+```{r} 
+ggplot(accident_filter, aes(x=DAY_WEEK) ) + geom_bar() 
+
+
+
+
+``` 
+
+
+# Time of the day 
+what time of the day do accidents happen (use variable HOUR)?
+  there is a small increase in accidents in the morning as people drive to work and a larger hump from noon to midnight with a peak at 5 in the afternoon as people drive home from work. 
+
+
+```{r} 
+accident_filter = dplyr::filter(accident_filter, HOUR<25)
+ggplot(accident_filter, aes(x=HOUR) ) + geom_bar()
+
+
+
+``` 
+
+
+
+# Drunk Driving 
+what is the number of accidents with at least one drunk driver (use variable DRUNK_DR)?
+  8,720 accidents with at least one drunk driver  
+
+
+```{r} 
+
+ggplot(accident, aes(x=DRUNK_DR) ) + geom_bar() 
+
+nrow(dplyr::filter(accident, DRUNK_DR>0))
+
+
+
+``` 
+
+
+
+
+# Connecting Person and Accident  
+Connect to the person table. Identify drivers (PER_TYP == 1, see fars manual ) and subset on them.
+
+Join accident and driver table (work out which variable(s) to use)
+
+Tally the number of accidents by day of the week (DAY_WEEK), hour of the day (HOUR) and gender (SEX). Visualize the results!
+
+
+```{r} 
+drivers = dplyr::filter(person, PER_TYP == 1)
+combo_data = left_join(accident, drivers, by="ST_CASE")
+
+
+ggplot(combo_data, aes(x=DAY_WEEK) ) + geom_bar() +
+geom_text(stat='count', aes(label=..count..), vjust=-1)
+
+combo_data_filter = dplyr::filter(combo_data, HOUR.x<25)
+ggplot(combo_data_filter, aes(x=HOUR.x) ) + geom_bar()+
+geom_text(stat='count', aes(label=..count..), vjust=-1)
+
+combo_data_filter2 = dplyr::filter(combo_data, SEX<3)
+ggplot(combo_data_filter2, aes(x=SEX)) + geom_bar()+
+geom_text(stat='count', aes(label=..count..), vjust=-1)
+
+
+
+``` 
+
+
 
 
 
